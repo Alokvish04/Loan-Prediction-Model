@@ -32,26 +32,26 @@ if st.button('Predict Loan Status'):
     education_encoded = 1 if education == 'Graduate' else 0
     self_employed_encoded = 1 if self_employed == 'Yes' else 0
 
-dependents_encoded = dependents.replace('3+', '4')  # Handle '3+'
+    dependents_encoded = dependents.replace('3+', '4') # Handle '3+'
 
-property_area_mapping = {'Rural': 0, 'Semiurban': 1, 'Urban': 2}
-property_area_encoded = property_area_mapping[property_area]
+    property_area_mapping = {'Rural': 0, 'Semiurban': 1, 'Urban': 2}
+    property_area_encoded = property_area_mapping[property_area]
 
-# Create a DataFrame from the inputs
-input_data = pd.DataFrame([[gender_encoded, married_encoded, int(dependents_encoded),
-                            education_encoded, self_employed_encoded,
-                            applicant_income, coapplicant_income,
-                            loan_amount, loan_amount_term,
-                            credit_history, property_area_encoded]],
-                          columns=['Gender', 'Married', 'Dependents', 'Education', 'Self_Employed',
-                                   'ApplicantIncome', 'CoapplicantIncome', 'LoanAmount',
-                                   'Loan_Amount_Term', 'Credit_History', 'Property_Area'])
+    # Create a DataFrame from the inputs
+    input_data = pd.DataFrame([[gender_encoded, married_encoded, int(dependents_encoded),
+                                education_encoded, self_employed_encoded,
+                                applicant_income, coapplicant_income,
+                                loan_amount, loan_amount_term,
+                                credit_history, property_area_encoded]],
+                              columns=['Gender', 'Married', 'Dependents', 'Education', 'Self_Employed',
+                                       'ApplicantIncome', 'CoapplicantIncome', 'LoanAmount',
+                                       'Loan_Amount_Term', 'Credit_History', 'Property_Area'])
 
-# Make prediction
-prediction = loaded_model.predict(input_data)
+    # Make prediction
+    prediction = loaded_model.predict(input_data)
 
-# Display result
-if prediction[0] == 1:
-    st.success('Loan Status: Approved')
-else:
-    st.error('Loan Status: Rejected')
+    # Display result
+    if prediction[0] == 1:
+        st.success('Loan Status: Approved')
+    else:
+        st.error('Loan Status: Rejected')
