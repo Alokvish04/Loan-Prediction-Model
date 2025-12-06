@@ -1,3 +1,4 @@
+%%writefile app.py
 import streamlit as st
 import joblib
 import pandas as pd
@@ -7,6 +8,43 @@ import numpy as np
 loaded_model = joblib.load('trained_svm_model.joblib')
 
 st.set_page_config(page_title="Loan Prediction App", layout="centered")
+
+# Define custom CSS for blurred vibrant blue and purple pattern background
+custom_css = """
+<style>
+body {
+    background: linear-gradient(to right, #6A0DAD, #4B0082);
+    background-size: cover;
+    background-attachment: fixed;
+}
+.stApp {
+    background: url("https://www.transparenttextures.com/patterns/cubes.png"); /* Optional: add a subtle texture */
+    background-attachment: fixed;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+}
+/* Styling for Streamlit input widgets to give them a card-like appearance */
+.st-cc, .st-bd, .st-emotion-cache-p5m8bv, .st-emotion-cache-1c99r31, .st-emotion-cache-cnjvw8 {
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    margin-bottom: 10px;
+}
+.st-emotion-cache-1rs6k03{
+    background-color: rgba(255, 255, 255, 0.05); /* Slightly transparent white */
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+/* Adjusting text color for better readability on dark background */
+h1, h2, h3, h4, h5, h6, .stMarkdown, label, .st-emotion-cache-vk3w3g p {
+    color: #F0F2F6;
+}
+</style>
+"""
+st.markdown(custom_css, unsafe_allow_html=True)
 
 st.title('🏠 Loan Application Status Prediction')
 st.markdown("### Predict if a loan application will be approved or rejected based on the applicant's details.")
@@ -63,7 +101,7 @@ if st.button('Predict Loan Status'):
         st.error('Loan Amount must be a positive number.')
         st.stop()
 
-    # Preprocess user input to match model's training format
+    # Preprocess user input to match model\'s training format
     # Convert categorical features to numerical
     gender_encoded = 1 if gender == 'Male' else 0
     married_encoded = 1 if married == 'Yes' else 0
