@@ -1,4 +1,3 @@
-%%writefile app.py
 import streamlit as st
 import joblib
 import pandas as pd
@@ -136,3 +135,4 @@ if st.button('Predict Loan Status'):
         st.markdown("Unfortunately, based on the provided details, your loan application is likely to be rejected. Please review the input values, especially credit history and income, or contact your financial advisor for more information.")
     st.write('---')
     st.info("Note: This prediction is based on a trained machine learning model and should be used as a guide only and does not guarantee actual loan approval or rejection.")
+
