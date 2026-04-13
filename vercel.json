@@ -1,0 +1,11 @@
+{
+  "buildCommand": "pip install -r model/requirements.txt",
+  "functions": {
+    "model/app.py": {
+      "runtime": "python"
+    }
+  },
+  "routes": [
+    { "src": "/(.*)", "dest": "/model/app.py" }
+  ]
+}
