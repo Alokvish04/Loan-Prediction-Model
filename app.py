@@ -7,6 +7,10 @@ import os
 app = Flask(__name__)
 
 model_path = os.path.join(os.path.dirname(__file__), "trained_svm_model.joblib")
+
+if not os.path.exists(model_path):
+    raise FileNotFoundError(f"Model file not found: {model_path}")
+
 loaded_model = joblib.load(model_path)
 
 def preprocess_input(data: dict) -> pd.DataFrame:
