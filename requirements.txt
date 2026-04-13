@@ -1,5 +1,5 @@
-streamlit
-pandas
-scikit-learn
-joblib
-numpy
+Flask==2.3.*
+pandas==2.*
+numpy==1.*
+scikit-learn==1.*
+joblib==1.3.*
