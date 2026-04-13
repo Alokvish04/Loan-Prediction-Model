@@ -1,4 +1,3 @@
-# model/app.py
 from flask import Flask, request, jsonify, render_template
 import joblib
 import pandas as pd
@@ -7,7 +6,6 @@ import os
 
 app = Flask(__name__)
 
-# Load the trained SVM model
 model_path = os.path.join(os.path.dirname(__file__), "trained_svm_model.joblib")
 loaded_model = joblib.load(model_path)
 
@@ -17,21 +15,20 @@ def preprocess_input(data: dict) -> pd.DataFrame:
     Returns a one-row DataFrame with the exact columns your model expects.
     """
 
-    # Extract raw values
-    gender = data["gender"]                # "Male" / "Female"
-    married = data["married"]              # "Yes" / "No"
-    dependents = data["dependents"]        # "0" / "1" / "2" / "3+"
-    education = data["education"]          # "Graduate" / "Not Graduate"
-    self_employed = data["self_employed"]  # "Yes" / "No"
+    gender = data["gender"]                
+    married = data["married"]              
+    dependents = data["dependents"]        
+    education = data["education"]          
+    self_employed = data["self_employed"]  
 
     applicant_income = float(data["applicant_income"])
     coapplicant_income = float(data["coapplicant_income"])
     loan_amount = float(data["loan_amount"])
     loan_amount_term = int(data["loan_amount_term"])
-    credit_history = int(data["credit_history"])  # 0 or 1
-    property_area = data["property_area"]         # "Rural" / "Semiurban" / "Urban"
+    credit_history = int(data["credit_history"])  
+    property_area = data["property_area"]         
 
-    # Encode categorical features just like in your Streamlit app
+
     gender_encoded = 1 if gender == "Male" else 0
     married_encoded = 1 if married == "Yes" else 0
     education_encoded = 1 if education == "Graduate" else 0
@@ -42,7 +39,7 @@ def preprocess_input(data: dict) -> pd.DataFrame:
     property_area_mapping = {"Rural": 0, "Semiurban": 1, "Urban": 2}
     property_area_encoded = property_area_mapping[property_area]
 
-    # Build DataFrame in the same column order you used for training
+    
     input_df = pd.DataFrame(
         [[
             gender_encoded,
@@ -76,7 +73,7 @@ def preprocess_input(data: dict) -> pd.DataFrame:
 
 @app.route("/")
 def index():
-    # Renders templates/index.html
+    
     return render_template("index.html")
 
 @app.route("/predict", methods=["POST"])
@@ -84,7 +81,7 @@ def predict():
     try:
         data = request.get_json()
 
-        # Basic sanity checks (similar to your Streamlit validation)
+       
         if float(data["applicant_income"]) <= 0:
             return jsonify({"error": "Applicant Income must be positive."}), 400
         if float(data["coapplicant_income"]) < 0:
