@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loan Application Status Prediction</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    .section {
+      margin-bottom: 20px;
+      padding: 12px 16px;
+      border-radius: 6px;
+      background: #f1f3f5;
+    }
+
+    .section h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid #ced4da;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px 16px;
+      background: #0d6efd;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #0b5ed7;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 6px;
+    }
+
+    .success {
+      background: #d1e7dd;
+      color: #0f5132;
+      border: 1px solid #badbcc;
+    }
+
+    .error {
+      background: #f8d7da;
+      color: #842029;
+      border: 1px solid #f5c2c7;
+    }
+
+    .info {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>🏠 Loan Application Status Prediction</h1>
+    <p>Predict if a loan application will be approved or rejected based on the applicant's details.</p>
+    <hr />
+
+    <!-- Personal Information -->
+    <div class="section">
+      <h2>Personal Information</h2>
+      <div class="grid">
+        <div>
+          <label for="gender">Gender</label>
+          <select id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div>
+          <label for="married">Married</label>
+          <select id="married">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div>
+          <label for="dependents">Dependents</label>
+          <select id="dependents">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3+">3+</option>
+          </select>
+        </div>
+        <div>
+          <label for="education">Education</label>
+          <select id="education">
+            <option value="Graduate">Graduate</option>
+            <option value="Not Graduate">Not Graduate</option>
+          </select>
+        </div>
+        <div>
+          <label for="self_employed">Self Employed</label>
+          <select id="self_employed">
+            <option value="Yes">Yes</option>
+            <option value="No" selected>No</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Employment and Financial Details -->
+    <div class="section">
+      <h2>Employment and Financial Details</h2>
+      <div class="grid">
+        <div>
+          <label for="applicant_income">Applicant Income (USD)</label>
+          <input type="number" id="applicant_income" value="5000" min="0" />
+        </div>
+        <div>
+          <label for="coapplicant_income">Coapplicant Income (USD)</label>
+          <input type="number" id="coapplicant_income" value="1000" min="0" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Loan Request Details -->
+    <div class="section">
+      <h2>Loan Request Details</h2>
+      <div class="grid">
+        <div>
+          <label for="loan_amount">Loan Amount (in thousands USD)</label>
+          <input type="number" id="loan_amount" value="150" min="1" />
+        </div>
+        <div>
+          <label for="loan_amount_term">Loan Amount Term (months)</label>
+          <select id="loan_amount_term">
+            <option value="12">12</option>
+            <option value="36">36</option>
+            <option value="60">60</option>
+            <option value="120">120</option>
+            <option value="180">180</option>
+            <option value="240">240</option>
+            <option value="300">300</option>
+            <option value="360" selected>360</option>
+            <option value="480">480</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Credit and Property Information -->
+    <div class="section">
+      <h2>Credit and Property Information</h2>
+      <div class="grid">
+        <div>
+          <label for="credit_history">Credit History (1: met guidelines, 0: not)</label>
+          <select id="credit_history">
+            <option value="1" selected>1</option>
+            <option value="0">0</option>
+          </select>
+        </div>
+        <div>
+          <label for="property_area">Property Area</label>
+          <select id="property_area">
+            <option value="Rural">Rural</option>
+            <option value="Semiurban" selected>Semiurban</option>
+            <option value="Urban">Urban</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="predict()">Predict Loan Status</button>
+
+    <div id="result"></div>
+
+    <div class="info">
+      Note: This prediction is based on a trained machine learning model and should be used as a guide only. It does not guarantee actual loan approval or rejection.
+    </div>
+  </main>
+
+  <script>
+    async function predict() {
+      const payload = {
+        gender: document.getElementById("gender").value,
+        married: document.getElementById("married").value,
+        dependents: document.getElementById("dependents").value,
+        education: document.getElementById("education").value,
+        self_employed: document.getElementById("self_employed").value,
+        applicant_income: document.getElementById("applicant_income").value,
+        coapplicant_income: document.getElementById("coapplicant_income").value,
+        loan_amount: document.getElementById("loan_amount").value,
+        loan_amount_term: document.getElementById("loan_amount_term").value,
+        credit_history: document.getElementById("credit_history").value,
+        property_area: document.getElementById("property_area").value
+      };
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
+
+      try {
+        const res = await fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || data.error) {
+          resultDiv.innerHTML = `<div class="result error"><strong>Error:</strong> ${data.error || "Request failed"}</div>`;
+          return;
+        }
+
+        const cls = data.prediction === 1 ? "success" : "error";
+
+        resultDiv.innerHTML = `
+          <div class="result ${cls}">
+            <h3>Prediction Result</h3>
+            <p><strong>Loan Status:</strong> ${data.status}</p>
+            <p>${data.message}</p>
+          </div>
+        `;
+      } catch (err) {
+        resultDiv.innerHTML = `<div class="result error"><strong>Error:</strong> ${err.message}</div>`;
+      }
+    }
+  </script>
+</body>
+</html>
